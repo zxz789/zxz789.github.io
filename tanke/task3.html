@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>让坦克开起来</title>
+		<style type="text/css">
+			input{font-size:26px;margin-top: 20px;}
+			body{background-image: url(images/grassland.png);}
+			#mytank{position: absolute;left:10px;top:100px}
+		</style>
+	</head>
+	<body>
+		<!-- 219970147周兴忠 -->
+		<img id="mytank" src="images/right.png"/>
+		<script>
+			// 编写代码，让坦克能上下左右移动
+			const mytank = document.querySelector("#mytank");
+			console.dir(document.height);
+			document.addEventListener("contextmenu",function(e){
+				e.preventDefault();
+			})
+			document.addEventListener("keydown",(e) => {
+				const keyCode = e.keyCode;
+				if (keyCode === 87) { // w
+					mytank.src = './images/up.png';
+					mytank.style.top = mytank.offsetTop - 2 + 'px';
+				}else if (keyCode === 65) { // a
+					mytank.src = './images/left.png';
+					mytank.style.left = mytank.offsetLeft - 2 + 'px';
+				}else if (keyCode === 83) { // s
+					mytank.src = './images/down.png';
+					mytank.style.top = mytank.offsetTop + 2 + 'px';
+				}else if (keyCode === 68) { // d
+					mytank.src = './images/right.png';
+					mytank.style.left = mytank.offsetLeft + 2 + 'px';
+				}
+			})
+		</script>
+	</body>
+</html>
