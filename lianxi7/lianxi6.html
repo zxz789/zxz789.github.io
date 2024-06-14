@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     // 自定义 Promise 对象构造函数
+      function MyPromise(executor) {
+        this.state = 'pending'; // 初始状态为 pending
+        this.value = undefined; // 存储 Promise 的值
+        this.onFulfilledCallbacks = []; // 存储成功状态时的回调函数
+        this.onRejectedCallbacks = []; // 存储失败状态时的回调函数
+
+  // resolve 函数用于将 Promise 的状态改变为成功，并执行成功状态时的回调函数
+  const resolve = (value) => {
+    if (this.state === 'pending') {
+      this.state = 'fulfilled';
+      this.value = value;
+      this.onFulfilledCallbacks.forEach(callback => callback(this.value));
+    }
+  };
+
+  // reject 函数用于将 Promise 的状态改变为失败，并执行失败状态时的回调函数
+  const reject = (reason) => {
+    if (this.state === 'pending') {
+      this.state = 'rejected';
+      this.value = reason;
+      this.onRejectedCallbacks.forEach(callback => callback(this.value));
+    }
+  };
+
+  // 执行传入的执行函数 executor，并传入 resolve 和 reject 函数
+  executor(resolve, reject);
+}
+
+// then 方法用于注册成功和失败状态时的回调函数
+MyPromise.prototype.then = function(onFulfilled, onRejected) {
+  if (this.state === 'fulfilled') {
+    onFulfilled(this.value); // 如果状态为成功，则执行成功回调函数
+  } else if (this.state === 'rejected') {
+    onRejected(this.value); // 如果状态为失败，则执行失败回调函数
+  } else {
+    this.onFulfilledCallbacks.push(onFulfilled); // 将成功回调函数存入数组
+    this.onRejectedCallbacks.push(onRejected); // 将失败回调函数存入数组
+  }
+};
+
+// 测试
+const myPromise = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Promise resolved');
+  }, 2000);
+});
+
+// 注册成功和失败状态时的回调函数
+myPromise.then(
+  value => {
+    console.log('Success:', value);
+  },
+  reason => {
+    console.log('Error:', reason);
+  }
+);
+    </script>
+</body>
+</html>

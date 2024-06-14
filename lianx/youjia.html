@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>油价</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        select {
+            margin-right: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+        #oilPrices {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>各省油价</h1>
+    <label for="province">请选择省份：</label>
+    <select id="province">
+        <option value="北京">北京</option>
+        <option value="上海">上海</option>
+        <option value="广东">广东</option>
+        <option value="江苏">江苏</option>
+        <option value="浙江">浙江</option>
+        <option value="四川">四川</option>
+        <option value="湖北">湖北</option>
+        <option value="湖南">湖南</option>
+        <option value="河南">河南</option>
+        <option value="河北">河北</option>
+        <option value="山东">山东</option>
+        <option value="山西">山西</option>
+        <option value="陕西">陕西</option>
+        <option value="辽宁">辽宁</option>
+        <option value="吉林">吉林</option>
+        <option value="黑龙江">黑龙江</option>
+        <option value="福建">福建</option>
+        <option value="安徽">安徽</option>
+        <option value="江西">江西</option>
+        <option value="广西">广西</option>
+        <option value="海南">海南</option>
+        <option value="内蒙古">内蒙古</option>
+        <option value="宁夏">宁夏</option>
+        <option value="青海">青海</option>
+        <option value="甘肃">甘肃</option>
+        <option value="新疆">新疆</option>
+        <option value="西藏">西藏</option>
+        <option value="台湾">台湾</option>
+        <option value="香港">香港</option>
+        <option value="澳门">澳门</option>
+        <option value="重庆">重庆</option>
+        <!-- 其他省份选项 -->
+    </select>
+    <button id="fetchData">获取油价</button>
+    <button id="clearInput">清除</button>
+
+    <h2>油价信息</h2>
+    <div id="oilPrices">
+        <p id="result"></p>
+    </div>
+
+    <script>
+        // 省略原有的 JavaScript 代码
+        // ...
+        const appId = 'pgrfrchllpodpzr8';
+		const appSecret = 'EpHijbyh3sqmqI6LYgYtbbDCRquwSBnR';
+		
+		document.getElementById('fetchData').addEventListener('click', function() {
+		    const province = document.getElementById('province').value;
+		    getOilPrices(province);
+		});
+		
+		function getOilPrices(province) {
+		    const apiUrl = `https://www.mxnzp.com/api/oil/search?province=${encodeURIComponent(province)}&app_id=${appId}&app_secret=${appSecret}`;
+		
+		    fetch(apiUrl)
+		        .then(response => {
+		            if (!response.ok) {
+		                throw new Error('Network response was not ok ' + response.statusText);
+		            }
+		            return response.json();
+		        })
+		        .then(data => {
+		            const resultElement = document.getElementById('result');
+		            if (data.code === 1) {
+		                resultElement.innerHTML = `
+		                    <p>省份: ${data.data.province}yuan</p>
+		                    <p>0号柴油: ${data.data.t0}yuan</p>
+		                    <p>89号汽油: ${data.data.t89}yuan</p>
+		                    <p>92号汽油: ${data.data.t92}yuan</p>
+		                    <p>95号汽油: ${data.data.t95}yuan</p>
+		                    <p>98号汽油: ${data.data.t98}yuan</p>
+		                `;
+		            } else {
+		                resultElement.textContent = "数据返回失败！消息: " + data.msg;
+		            }
+		        })
+		        .catch(error => {
+		            document.getElementById('result').textContent = 'Fetch error: ' + error;
+		        });
+		}
+        document.getElementById('clearInput').addEventListener('click', function() {
+            document.getElementById('province').value = '';
+            document.getElementById('result').innerHTML = '';
+        });
+    </script>
+</body>
+</html>

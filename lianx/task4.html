@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>天气查询</title>
+<script src="jquery-3.7.1.js"></script>
+<script>
+$(document).ready(function(){
+    $("#weatherButton").click(function(){
+        var cityName = $("#cityName").val();
+        if (cityName) {
+            var appId = 'pgrfrchllpodpzr8';
+            var appSecret = 'EpHijbyh3sqmqI6LYgYtbbDCRquwSBnR';
+            var url = "https://www.mxnzp.com/api/weather/forecast/" + encodeURIComponent(cityName) + "?app_id=" + 
+			appId + "&app_secret=" + appSecret;
+
+            $.getJSON(url, function(data) {
+                if(data.code === 1) {
+                    var forecasts = data.data.forecasts;
+                    var content = "<h2>天气信息 (" + data.data.address + ")</h2>";
+
+                    forecasts.forEach(function(forecast) {
+                        content += "<p><b>日期:</b> " + forecast.date +
+                            ", <b>星期:</b> " + forecast.dayOfWeek +
+                            ", <b>白天天气:</b> " + forecast.dayWeather +
+                            ", <b>夜晚天气:</b> " + forecast.nightWeather +
+                            ", <b>白天温度:</b> " + forecast.dayTemp +
+                            ", <b>夜晚温度:</b> " + forecast.nightTemp +
+                            ", <b>白天风向:</b> " + forecast.dayWindDirection +
+                            ", <b>夜晚风向:</b> " + forecast.nightWindDirection +
+                            ", <b>白天风力:</b> " + forecast.dayWindPower +
+                            ", <b>夜晚风力:</b> " + forecast.nightWindPower + "</p>";
+                    });
+
+                    $("#result").html(content);
+                } else {
+                    $("#result").html("<p>无法获取天气信息，请检查城市名或网络连接。</p>");
+                }
+            });
+        } else {
+            $("#result").html("<p>请输入城市名。</p>");
+        }
+    });
+});
+</script>
+</head>
+<body>
+<h1>查询天气</h1>
+<p>请输入您想查询的城市名:</p>
+<input type="text" id="cityName" placeholder="例如：重庆市">
+<button id="weatherButton">查询天气</button>
+<div id="result"></div>
+</body>
+</html>

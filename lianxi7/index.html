@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>实验五</title>
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/bootstrap-4.2.1.css">
+    <link rel="stylesheet" href="https://www.jq22.com/jquery/font-awesome.4.7.0.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 219970147周兴忠 -->
+    <div class="section dwo">
+        <div class="container">
+            <div class="row full-height justify-content-center">
+                <div class="col-12 text-center align-self-center py-5">
+                    <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log">
+                        <div class="card-3d-wrap mx-auto">
+                            <div class="card-3d-wrapper bgk">
+                                <div class="card-front">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">登录</h4>
+                                            <div class="form-group">
+                                                <input type="email" name="logemail" class="form-style" placeholder="请输入电子邮箱" id="logemail" autocomplete="off">
+                                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass" class="form-style" placeholder="请输入密码" id="logpass" autocomplete="off">
+                                                <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                            </div>
+                                            <a  href="javascript:" class="btn mt-4" onclick="checkUsername()">登录</a>
+                                            <div class="d-flex justify-content-between mt-4 text-left">
+                                                <div class="flex-fill">
+                                                    <p>没有帐号？<label for="reg-log">立即注册</p>
+                                                </div>
+                                                <div class="flex-fill text-right">
+                                                    <p><a href="javascript:" class="forgot link">忘记密码？</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-back">
+                                    <div class="center-wrap">
+                                        <div class="section text-center">
+                                            <h4 class="mb-4 pb-3">注册</h4>
+                                            <div class="form-group">
+                                                <input type="text" name="registername" class="form-style" placeholder="请输入用户名" id="registername" autocomplete="off">
+                                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="email" name="regemail" class="form-style" placeholder="请输入电子邮箱" id="regemail" autocomplete="off">
+                                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="registerpass" class="form-style" placeholder="请输入密码" id="registerpass" autocomplete="off">
+                                                <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                                            </div>
+                                            <a href="javascript:" class="btn mt-4" onclick="check1()">注册</a>
+                                            <p class="mb-0 mt-4 text-center">已有帐号？<label for="reg-log">立即登录</label></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+</body>
+<script>
+    // 登录验证函数
+    function check() {
+        var email = document.getElementById('logemail').value;
+        var password = document.getElementById('logpass').value;
+    
+        // 基本的验证，检查邮箱和密码是否为空
+        if (email === "" || password === "") {
+            alert("邮箱和密码不能为空！");
+            return false;
+        }
+        // 检查邮箱格式
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("请输入有效的电子邮箱！");
+            return false;
+        }
+        // 检查密码长度
+        if(password.length<6){
+            alert("密码长度不能小于6位！");
+            return false;
+        } 
+        // 登录成功
+        if(password.length>=6){
+            window.location.href="./index.html";
+            return true;    
+        }
+        // 这里可以添加更多的验证逻辑，比如正则表达式检查邮箱格式等
+    
+    }
+    // 注册验证函数
+    function check1() {
+        var username = document.getElementById('registername').value;
+        var email = document.getElementById('regemail').value;
+        var password = document.getElementById('registerpass').value;
+    
+        // 基本的验证，检查用户名、邮箱和密码是否为空
+        if (username === "" || email === "" || password === "") {
+            alert("用户名、邮箱和密码不能为空！");
+            return false;
+        }
+        //检查密码长度
+        if(password.length<6){
+            alert("密码长度不能小于6位！");
+            return false;
+        }
+        //检查邮箱格式
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("请输入有效的电子邮箱！");
+            return false;
+        }
+        //注册成功
+        if(password.length>=6){
+            alert("注册成功!请返回登录");
+          return true;
+        }
+            
+        // 这里可以添加更多的验证逻辑，比如检查用户名是否已存在等
+    
+      
+    }
+    function checkUsername() {
+    var logemail = document.getElementById('logemail').value;
+    $.ajax({
+        url: 'check_username.php', // 服务器端脚本
+        type: 'POST',
+        data: {logemail: logemail},
+        success: function(response) {
+            if(response === 'exists') {
+                document.getElementById('result').innerText = 'Username already exists!';
+            } else {
+                document.getElementById('result').innerText = 'Username is available!';
+            }
+        },
+        error: function() {
+            document.getElementById('result').innerText = 'An error occurred!';
+        }
+    });
+}
+    </script>
+
+</html>

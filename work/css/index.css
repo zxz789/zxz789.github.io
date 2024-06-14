@@ -1,0 +1,47 @@
+html,body{
+    height: 2000px;
+    margin: 0;
+}
+.layout{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+.layout .content{
+    background: #bdb2b2;
+    width: 60%;
+}
+
+.item{
+    position: fixed;
+    height: 300px;
+    width: 150px;
+    border: 1px solid black;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.xx{
+    top: 0;
+    right: 0;
+    position: absolute;
+    border: 1px solid black;
+    margin-right: 2px;
+    margin-top: 2px;
+    padding: 0 1px;
+}
+
+.leftgg{
+    top: 0;
+    left: 0;
+}
+.rightgg{
+    top: 0;
+}
+.tc{
+    /* visibility: hidden; */
+    bottom: -310px;
+    transition: all 2S ;
+}
